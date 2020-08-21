@@ -6,7 +6,7 @@ public class SortInformation {
     private File[] targetFiles;
     private File destinationFolder;
 
-    public SortInformation(File[] targetFiles, File destinationFolder){
+    public SortInformation(File[] targetFiles, File destinationFolder) {
         this.targetFiles = targetFiles;
         this.destinationFolder = destinationFolder;
     }
