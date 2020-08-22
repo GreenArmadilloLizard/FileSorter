@@ -13,9 +13,18 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This Class implements the Sorter interface and sorts all files depending on the definition in NamingRules.JSON
+ * (i.e., readme.txt gets moved to a folder called Documents by default).
+ * If no definition is present, the backupSorter is used instead.
+ *
+ * @author Alexander Krischer
+ * @version 0.0.3
+ */
 @Component
 @Qualifier("default")
 public class GroupSorter implements Sorter {
+
     private final String rulePath = "src/main/resources/NamingRules.JSON";
 
     Map<String, String> sortRules = new HashMap<String, String>();

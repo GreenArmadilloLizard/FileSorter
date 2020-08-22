@@ -16,6 +16,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
+/**
+ * Entry point for the application.
+ *
+ * @author Alexander Krischer
+ * @version 0.0.2
+ */
 @SpringBootApplication
 public class FileSorterApplication {
 
@@ -41,6 +47,12 @@ public class FileSorterApplication {
         };
     }
 
+    /**
+     * Begins an dialog with the user using the swing library.
+     * It collects and returns the input information by the user needed to sort the files.
+     *
+     * @return an object of the SortInformation class, which contains all the input information by the user.
+     */
     public SortInformation beginDialog() {
         JOptionPane.showMessageDialog(null, "Choose the files, which are going to be moved into separate folders.");
         File[] selectedFiles = askForFiles();
@@ -59,6 +71,13 @@ public class FileSorterApplication {
         return new SortInformation(selectedFiles, folder);
     }
 
+    /**
+     * Sorts the targeted files into the destination folder provided in the sortInfo parameter.
+     * The destination is given by the sorter.
+     *
+     * @param sortInfo The information provided by the user.
+     * @param sorter   The sorter which should be used.
+     */
     public void sortFiles(SortInformation sortInfo, Sorter sorter) {
         for (File file : sortInfo.getTargetFiles()) {
             Path newPath = sortInfo.getDestinationFolder().toPath().resolve(sorter.sortFile(file));
