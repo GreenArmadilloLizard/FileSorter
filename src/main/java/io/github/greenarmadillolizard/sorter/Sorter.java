@@ -7,7 +7,7 @@ import java.nio.file.Path;
  * The user of this interface has control over the determination on how a file should be moved.
  *
  * @author Alexander Krischer
- * @version 0.0.2
+ * @version 0.0.3
  */
 public interface Sorter {
 
@@ -24,16 +24,12 @@ public interface Sorter {
      * @return the extension af a file
      */
     default String getFileExtension(File file) {
-
-        if (!file.isFile())
-            throw new IllegalArgumentException("The file parameter must be a File.");
-
         String fileName = file.getName();
 
         int startIndex = fileName.lastIndexOf('.');
 
         if (startIndex == -1 || startIndex + 1 == fileName.length())
-            return "";
+            return "unknown";
 
         return fileName.substring(startIndex+1);
     }

@@ -19,7 +19,7 @@ import java.util.Map;
  * If no definition is present, the backupSorter is used instead.
  *
  * @author Alexander Krischer
- * @version 0.0.3
+ * @version 0.0.4
  */
 @Component
 @Qualifier("default")
@@ -27,7 +27,7 @@ public class GroupSorter implements Sorter {
 
     private final String rulePath = "src/main/resources/NamingRules.JSON";
 
-    Map<String, String> sortRules = new HashMap<String, String>();
+    private Map<String, String> sortRules = new HashMap<String, String>();
 
     @Autowired
     @Qualifier("backup")
@@ -41,22 +41,30 @@ public class GroupSorter implements Sorter {
         }
     }
 
-    private void setRules() throws IOException {
+    protected void setRules() throws IOException {
         byte[] jsonText = Files.readAllBytes(Paths.get(rulePath));
         ObjectMapper objectMapper = new ObjectMapper();
 
-        sortRules = objectMapper.readValue(jsonText, HashMap.class);
+        setSortRules(objectMapper.readValue(jsonText, HashMap.class));
     }
 
     @Override
     public Path sortFile(File file) {
         String fileExtension = getFileExtension(file);
 
-        String folderName = sortRules.getOrDefault(fileExtension, "");
+        String folderName = getSortRules().getOrDefault(fileExtension, "");
 
         if (folderName.isEmpty())
             return backupSorter.sortFile(file);
         else
             return Paths.get(folderName);
+    }
+
+    public Map<String, String> getSortRules() {
+        return sortRules;
+    }
+
+    public void setSortRules(Map<String, String> sortRules) {
+        this.sortRules = sortRules;
     }
 }
